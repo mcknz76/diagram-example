@@ -1,0 +1,51 @@
+---
+title: Facilities Context
+---
+graph LR
+
+  %% ---------- FACILITIES EXECUTION ----------
+  subgraph Exec[Facilities Execution]
+    WO[WORK ORDER]
+    LOC[LOCATION]
+    PROG[PROGRAM]
+
+    WO --- LOC
+    WO --- PROG
+    PROG --- LOC
+  end
+
+  %% ---------- CUSTOMER COMMERCIALS ----------
+  subgraph Comm[Customer Commercials]
+    direction TB
+
+    PROP[PROPOSAL]
+    CONT[CONTRACT]
+    CUST[CUSTOMER]
+    PO["PURCHASE<br/>ORDER"]
+    INV[INVOICE]
+
+    CONT --- CUST
+    CUST --- PROP
+    CUST --- PO
+    PO --- INV
+  end
+
+  %% ---------- INSTALL BASE, WARRANTY & VENDOR ----------
+  subgraph Install[Install Base, Warranty & Vendor]
+    ASSET[ASSET]
+    WARR[WARRANTY]
+    VEND[VENDOR]
+
+    LOC --- ASSET
+    LOC --- WARR
+    ASSET --- WARR
+
+    LOC --- VEND
+    VEND --- WARR
+    VEND --- PROP
+    CONT --- VEND
+  end
+
+  %% ---------- CROSS-GROUP EDGES ----------
+  CONT --- LOC
+  WO --- PO

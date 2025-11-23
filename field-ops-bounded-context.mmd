@@ -1,0 +1,58 @@
+---
+title: Field Ops Context
+---
+graph LR
+
+  %% ---------- FIELD OPS EXECUTION ----------
+  subgraph Exec[Field Ops Execution]
+    ST[SERVICE TICKET]
+    WO[WORK ORDER]
+    MT[MAINTENANCE TECH]
+    TR[TRUCK]
+    MAT[MATERIAL]
+    EQ[EQUIPMENT]
+
+    ST --- WO
+    ST --- MT
+    ST --- TR
+    ST --- MAT
+    ST --- EQ
+  end
+
+  %% ---------- INVENTORY & LOGISTICS ----------
+  subgraph Inv[Inventory & Logistics]
+    INV[INVENTORY]
+    WH[WAREHOUSE]
+    VSUP["VENDOR (SUPPLIER)"]
+
+    MAT --- INV
+    TR --- INV
+    EQ --- INV
+
+    INV --- WH
+    INV --- VSUP
+  end
+
+  %% ---------- CUSTOMER & CONTRACT CONTEXT ----------
+  subgraph Cust[Customer & Contract Context]
+
+    %% Declare CONTRACT and LOCATION early so the edge renders high
+    CONT[CONTRACT]
+    LOC[LOCATION]
+    CONT --- LOC
+
+    %% Other nodes in this context
+    CUST[CUSTOMER]
+    PROP[PROPOSAL]
+
+    %% Remaining edges
+    CUST --- CONT
+    LOC --- CUST
+
+    WO --- LOC
+
+    WO --- PROP
+    MT --- PROP
+    PROP --- CUST
+
+  end
