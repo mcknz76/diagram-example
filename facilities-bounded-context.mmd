@@ -1,51 +1,70 @@
 ---
 title: Facilities Context
 ---
-graph LR
+flowchart LR
 
-  %% ---------- FACILITIES EXECUTION ----------
-  subgraph Exec[Facilities Execution]
-    WO[WORK ORDER]
-    LOC[LOCATION]
-    PROG[PROGRAM]
+%% CUSTOMER & COMMERCIALS
+subgraph Comm["Customer & Commercials"]
+  direction TB
+  CUST[CUSTOMER]
+  CONT[CONTRACT]
+  PO["PURCHASE ORDER"]
+  INV[INVOICE]
+  PROP[PROPOSAL]
 
-    WO --- LOC
-    WO --- PROG
-    PROG --- LOC
-  end
+  CUST --- CONT
+  CUST --- PO
+  PO --- INV
+  CUST --- PROP
+end
 
-  %% ---------- CUSTOMER COMMERCIALS ----------
-  subgraph Comm[Customer Commercials]
-    direction TB
+%% EXECUTION
+subgraph Exec["Execution (Programs & Work Orders)"]
+  direction TB
+  PROG[PROGRAM]
+  WO[WORK ORDER]
 
-    PROP[PROPOSAL]
-    CONT[CONTRACT]
-    CUST[CUSTOMER]
-    PO["PURCHASE<br/>ORDER"]
-    INV[INVOICE]
+  PROG --- WO
+end
 
-    CONT --- CUST
-    CUST --- PROP
-    CUST --- PO
-    PO --- INV
-  end
+%% LOCATION
+subgraph LocBox["Location"]
+  direction TB
+  LOC[LOCATION]
+end
 
-  %% ---------- INSTALL BASE, WARRANTY & VENDOR ----------
-  subgraph Install[Install Base, Warranty & Vendor]
-    ASSET[ASSET]
-    WARR[WARRANTY]
-    VEND[VENDOR]
+%% INSTALL BASE & WORK QUALITY
+subgraph Install["Install Base & Work Quality"]
+  direction TB
+  ASSET[ASSET]
+  WARR[WARRANTY]
 
-    LOC --- ASSET
-    LOC --- WARR
-    ASSET --- WARR
+  ASSET --- WARR
+end
 
-    LOC --- VEND
-    VEND --- WARR
-    VEND --- PROP
-    CONT --- VEND
-  end
+%% VENDOR
+subgraph VendBox["Vendor"]
+  direction TB
+  VEND[VENDOR]
 
-  %% ---------- CROSS-GROUP EDGES ----------
-  CONT --- LOC
-  WO --- PO
+  VEND --- WARR
+  VEND --- PROP
+end
+
+%% CROSS-CUTTING RELATIONSHIPS
+
+CUST --- LOC
+LOC --- PROG
+WO --- LOC
+
+LOC --- ASSET
+LOC --- VEND
+
+CONT --- LOC
+CONT --- VEND
+
+WO --- PO
+PO --- VEND
+
+WO --- PROP
+WO --- WARR

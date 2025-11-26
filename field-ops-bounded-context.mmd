@@ -1,58 +1,61 @@
 ---
 title: Field Ops Context
 ---
-graph LR
+flowchart LR
 
-  %% ---------- FIELD OPS EXECUTION ----------
-  subgraph Exec[Field Ops Execution]
-    ST[SERVICE TICKET]
-    WO[WORK ORDER]
-    MT[MAINTENANCE TECH]
-    TR[TRUCK]
-    MAT[MATERIAL]
-    EQ[EQUIPMENT]
+%% ===========================
+%% FIELD OPS EXECUTION
+%% ===========================
+subgraph ExecCtx["Field Ops Execution"]
+    FIELDOPSTEAM["FIELD OPS TEAM"]
+    WORKORDER["WORK ORDER"]
+    SERVICETICKET["SERVICE TICKET"]
+    EQUIPMENT["EQUIPMENT"]
+    MATERIAL["MATERIAL"]
+    TRUCK["TRUCK"]
 
-    ST --- WO
-    ST --- MT
-    ST --- TR
-    ST --- MAT
-    ST --- EQ
-  end
+    FIELDOPSTEAM --- SERVICETICKET
+    WORKORDER --- SERVICETICKET
 
-  %% ---------- INVENTORY & LOGISTICS ----------
-  subgraph Inv[Inventory & Logistics]
-    INV[INVENTORY]
-    WH[WAREHOUSE]
-    VSUP["VENDOR (SUPPLIER)"]
+    SERVICETICKET --- EQUIPMENT
+    SERVICETICKET --- MATERIAL
+    SERVICETICKET --- TRUCK
+end
 
-    MAT --- INV
-    TR --- INV
-    EQ --- INV
+%% ===========================
+%% CUSTOMER & CONTRACT CONTEXT
+%% ===========================
+subgraph CustCtx["Customer & Contract Context"]
+    CUST["CUSTOMER"]
+    CONTRACT["CONTRACT"]
+    LOCATION["LOCATION"]
+    PROPOSAL["PROPOSAL"]
 
-    INV --- WH
-    INV --- VSUP
-  end
+    CUST --- CONTRACT
+    CONTRACT --- LOCATION
+    CUST --- LOCATION
+    CUST --- PROPOSAL
+end
 
-  %% ---------- CUSTOMER & CONTRACT CONTEXT ----------
-  subgraph Cust[Customer & Contract Context]
+%% ===========================
+%% INVENTORY & LOGISTICS
+%% ===========================
+subgraph InvCtx["Inventory & Logistics"]
+    WAREHOUSE["WAREHOUSE"]
+    SUPPLIER["VENDOR (SUPPLIER)"]
+    INVENTORY["INVENTORY"]
 
-    %% Declare CONTRACT and LOCATION early so the edge renders high
-    CONT[CONTRACT]
-    LOC[LOCATION]
-    CONT --- LOC
+    WAREHOUSE --- INVENTORY
+    SUPPLIER --- INVENTORY
+end
 
-    %% Other nodes in this context
-    CUST[CUSTOMER]
-    PROP[PROPOSAL]
+%% ===========================
+%% CROSS-CONTEXT LINKS
+%% ===========================
+WORKORDER --- PROPOSAL
+FIELDOPSTEAM --- PROPOSAL
+WORKORDER --- LOCATION
 
-    %% Remaining edges
-    CUST --- CONT
-    LOC --- CUST
-
-    WO --- LOC
-
-    WO --- PROP
-    MT --- PROP
-    PROP --- CUST
-
-  end
+EQUIPMENT --- INVENTORY
+MATERIAL --- INVENTORY
+TRUCK --- INVENTORY
