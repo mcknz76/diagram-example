@@ -4,28 +4,21 @@ title: Field Ops Context
 flowchart LR
 
 %% ===========================
-%% FIELD OPS EXECUTION
+%% INSTALL BASE & WORK QUALITY
 %% ===========================
-subgraph ExecCtx["Field Ops Execution"]
-    FIELDOPSTEAM["FIELD OPS TEAM"]
-    WORKORDER["WORK ORDER"]
-    SERVICETICKET["SERVICE TICKET"]
-    EQUIPMENT["EQUIPMENT"]
-    MATERIAL["MATERIAL"]
-    TRUCK["TRUCK"]
+subgraph InstallCtx["Install&nbsp;Base&nbsp;&amp;<br>Work&nbsp;Quality"]
+    direction TB
+    ASSET["ASSET"]
+    WARRANTY["WARRANTY"]
 
-    FIELDOPSTEAM --- SERVICETICKET
-    WORKORDER --- SERVICETICKET
-
-    SERVICETICKET --- EQUIPMENT
-    SERVICETICKET --- MATERIAL
-    SERVICETICKET --- TRUCK
+    ASSET --- WARRANTY
 end
 
 %% ===========================
 %% CUSTOMER & CONTRACT CONTEXT
 %% ===========================
 subgraph CustCtx["Customer&nbsp;&amp;&nbsp;Contract&nbsp;Context"]
+    direction TB
     CUST["CUSTOMER"]
     CONTRACT["CONTRACT"]
     LOCATION["LOCATION"]
@@ -38,9 +31,29 @@ subgraph CustCtx["Customer&nbsp;&amp;&nbsp;Contract&nbsp;Context"]
 end
 
 %% ===========================
+%% FIELD OPS EXECUTION
+%% ===========================
+subgraph ExecCtx["Field&nbsp;Ops&nbsp;Execution"]
+    direction TB
+    FIELDOPSTEAM["FIELD OPS TEAM"]
+    WORKORDER["WORK ORDER"]
+    SERVICETICKET["SERVICE TICKET"]
+    MATERIAL["MATERIAL"]
+    EQUIPMENT["EQUIPMENT"]
+    TRUCK["TRUCK"]
+
+    FIELDOPSTEAM --- SERVICETICKET
+    WORKORDER --- SERVICETICKET
+    SERVICETICKET --- MATERIAL
+    SERVICETICKET --- EQUIPMENT
+    SERVICETICKET --- TRUCK
+end
+
+%% ===========================
 %% INVENTORY & LOGISTICS
 %% ===========================
-subgraph InvCtx["Inventory & Logistics"]
+subgraph InvCtx["Inventory&nbsp;&amp;&nbsp;Logistics"]
+    direction TB
     WAREHOUSE["WAREHOUSE"]
     SUPPLIER["VENDOR (SUPPLIER)"]
     INVENTORY["INVENTORY"]
@@ -56,6 +69,11 @@ WORKORDER --- PROPOSAL
 FIELDOPSTEAM --- PROPOSAL
 WORKORDER --- LOCATION
 
+LOCATION --- ASSET
+SERVICETICKET --- ASSET
+SERVICETICKET --- WARRANTY
+FIELDOPSTEAM --- WARRANTY
+
+TRUCK --- INVENTORY
 EQUIPMENT --- INVENTORY
 MATERIAL --- INVENTORY
-TRUCK --- INVENTORY
