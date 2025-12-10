@@ -1,27 +1,74 @@
 ---
 title: Construction Context
 ---
-graph
-  CONTRACT---VENDOR
-  CONTRACT---CUSTOMER
-  CUSTOMER---LOCATION
-  CUSTOMER---PURCHASEORDER[PURCHASE ORDER]
-  CUSTOMER---INVOICE
-  PURCHASEORDER---PROJECT
-  PURCHASEORDER---INVOICE
-  INVOICE---VENDOR
-  INVOICE---CUSTOMER
-  LOCATION---PROJECT
-  LOCATION---ASSET
-  ASSET---WARRANTY
-  WARRANTY---VENDOR
-  WARRANTY---LOCATION
-  PURCHASEORDER---VENDOR
-  PROPOSAL---ESTIMATE
-  ESTIMATE---PROJECT
-  PROJECT---WORKORDER[WORK ORDER]
-	PROJECT---TASK
-  PROJECT---SUPERVISOR
-  PROJECT---CHANGEORDER[CHANGE ORDER]
-  PROPOSAL---CUSTOMER
-  PROPOSAL---VENDOR
+
+flowchart LR
+
+%% -----------------------------
+%% Customer & Contract Context
+%% -----------------------------
+subgraph CustomerCtx["Customer & Contract Context"]
+
+    CUSTOMER
+    CONTRACT
+    LOCATION
+end
+
+%% -----------------------------
+%% Procurement, Vendor, Install Base & Work Quality
+%% -----------------------------
+subgraph ProcurementCtx["Procurement, Vendor, Install Base & Work Quality"]
+
+    PURCHASE_ORDER
+    INVOICE
+    ASSET
+    WARRANTY
+    VENDOR
+end
+
+%% -----------------------------
+%% Construction Execution
+%% -----------------------------
+subgraph ExecCtx["Construction Execution"]
+
+    PROJECT
+    CHANGE_ORDER
+    TASK
+    WORK_ORDER
+    SUPERVISOR
+    ESTIMATE
+end
+
+%% -----------------------------
+%% Relationships
+%% -----------------------------
+CUSTOMER --- CONTRACT
+CUSTOMER --- LOCATION
+CUSTOMER --- PURCHASE_ORDER
+CONTRACT --- LOCATION
+
+PURCHASE_ORDER --- INVOICE
+PURCHASE_ORDER --- ASSET
+PURCHASE_ORDER --- VENDOR
+PURCHASE_ORDER --- WARRANTY
+
+ASSET --- WARRANTY
+
+LOCATION --- PROJECT
+PURCHASE_ORDER --- PROJECT
+PROPOSAL --- PROJECT
+
+PROJECT --- CHANGE_ORDER
+PROJECT --- TASK
+PROJECT --- WORK_ORDER
+PROJECT --- SUPERVISOR
+PROJECT --- ESTIMATE
+
+PROPOSAL --- CUSTOMER
+PROPOSAL --- LOCATION
+PROPOSAL --- VENDOR
+
+WARRANTY --- VENDOR
+INVOICE --- VENDOR
+
+ASSET --- LOCATION
