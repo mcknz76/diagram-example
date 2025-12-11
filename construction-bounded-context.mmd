@@ -19,7 +19,7 @@ end
 %% -----------------------------
 subgraph ProcurementCtx["Procurement, Vendor, Install Base & Work Quality"]
 
-    PURCHASE_ORDER
+    PURCHASE_ORDER["PURCHASE ORDER"]
     INVOICE
     ASSET
     WARRANTY
@@ -32,9 +32,9 @@ end
 subgraph ExecCtx["Construction Execution"]
 
     PROJECT
-    CHANGE_ORDER
+    CHANGE_ORDER["CHANGE ORDER"]
     TASK
-    WORK_ORDER
+    WORK_ORDER["WORK ORDER"]
     SUPERVISOR
     ESTIMATE
 end
