@@ -1,16 +1,51 @@
 ---
 title: Accounts Payable Context
 ---
-graph
-  INVOICE---VENDOR
-  INVOICE---WORKORDER[WORK ORDER]
-  INVOICE---PURCHASEORDER[PURCHASE ORDER]
-  INVOICE---PROJECT
-  INVOICE---BILL
-  BILL---PAYMENT
-  BILL---LIENWAIVER[LIEN WAIVER]
-  PAYMENT---VENDOR
-  PURCHASEORDER---VENDOR  
-  WORKORDER---VENDOR
-  PROJECT---VENDOR
-  LIENWAIVER---VENDOR
+
+flowchart LR
+
+%% -----------------------------------
+%% Accounts Payable Processing
+%% -----------------------------------
+subgraph AP_PROCESSING["Accounts Payable Processing"]
+    INVOICE["INVOICE"]
+    BILL["BILL"]
+    PAYMENT["PAYMENT"]
+end
+
+%% -----------------------------------
+%% Upstream Work and Commitments
+%% -----------------------------------
+subgraph UPSTREAM["Upstream Work and Commitments"]
+    PURCHASE_ORDER["PURCHASE ORDER"]
+    PROJECT["PROJECT"]
+    WORK_ORDER["WORK ORDER"]
+end
+
+%% -----------------------------------
+%% Vendor and Compliance
+%% -----------------------------------
+subgraph VENDOR_CTX["Vendor and Compliance"]
+    LIEN_WAIVER["LIEN WAIVER"]
+    VENDOR["VENDOR"]
+end
+
+%% -----------------------------------
+%% AP Processing Flows
+%% -----------------------------------
+INVOICE --- BILL
+BILL --- PAYMENT
+
+%% -----------------------------------
+%% Upstream Work & Commitments Flows
+%% -----------------------------------
+INVOICE --- PURCHASE_ORDER
+INVOICE --- PROJECT
+INVOICE --- WORK_ORDER
+
+%% -----------------------------------
+%% Vendor & Compliance Flows
+%% -----------------------------------
+PAYMENT --- LIEN_WAIVER
+LIEN_WAIVER --- VENDOR
+PURCHASE_ORDER --- VENDOR
