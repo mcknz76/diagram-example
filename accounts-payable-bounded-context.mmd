@@ -7,16 +7,17 @@ flowchart LR
 %% -----------------------------------
 %% Accounts Payable Processing
 %% -----------------------------------
-subgraph AP_PROCESSING["Accounts&nbsp;Payable&nbsp;Processing"]
+subgraph APProcessing["Accounts&nbsp;Payable&nbsp;Processing"]
     INVOICE["INVOICE"]
     BILL["BILL"]
     PAYMENT["PAYMENT"]
+    ADJUSTMENT["ADJUSTMENT"]
 end
 
 %% -----------------------------------
 %% Upstream Work and Commitments
 %% -----------------------------------
-subgraph UPSTREAM["Upstream&nbsp;Work&nbsp;and&nbsp;Commitments"]
+subgraph Upstream["Upstream&nbsp;Work&nbsp;and&nbsp;Commitments"]
     PURCHASE_ORDER["PURCHASE ORDER"]
     PROJECT["PROJECT"]
     WORK_ORDER["WORK ORDER"]
@@ -25,27 +26,21 @@ end
 %% -----------------------------------
 %% Vendor and Compliance
 %% -----------------------------------
-subgraph VENDOR_CTX["Vendor&nbsp;and&nbsp;Compliance"]
-    LIEN_WAIVER["LIEN WAIVER"]
+subgraph VendorCompliance["Vendor&nbsp;and&nbsp;Compliance"]
     VENDOR["VENDOR"]
+    LIEN_WAIVER["LIEN WAIVER"]
 end
 
 %% -----------------------------------
-%% AP Processing Flows
+%% Relationships
 %% -----------------------------------
 INVOICE --- BILL
 BILL --- PAYMENT
-
-%% -----------------------------------
-%% Upstream Work & Commitments Flows
-%% -----------------------------------
+ADJUSTMENT --- BILL
+ADJUSTMENT --- PAYMENT
 INVOICE --- PURCHASE_ORDER
 INVOICE --- PROJECT
 INVOICE --- WORK_ORDER
-
-%% -----------------------------------
-%% Vendor & Compliance Flows
-%% -----------------------------------
-PAYMENT --- LIEN_WAIVER
-LIEN_WAIVER --- VENDOR
 PURCHASE_ORDER --- VENDOR
+PAYMENT --- VENDOR
+LIEN_WAIVER --- VENDOR
