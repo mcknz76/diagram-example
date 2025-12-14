@@ -1,0 +1,45 @@
+---
+title: Accounts Receivable Context
+---
+
+flowchart LR
+
+%% -----------------------------------
+%% Customer Context
+%% -----------------------------------
+subgraph CUSTOMER_CTX["Customer Context"]
+    CUSTOMER["CUSTOMER"]
+    PURCHASE_ORDER["PURCHASE ORDER"]
+
+    CUSTOMER --- PURCHASE_ORDER
+end
+
+%% -----------------------------------
+%% Upstream Work and Commitments
+%% -----------------------------------
+subgraph UPSTREAM_CTX["Upstream Work and Commitments"]
+    PROJECT["PROJECT"]
+    WORK_ORDER["WORK ORDER"]
+end
+
+%% -----------------------------------
+%% Accounts Receivable Processing
+%% -----------------------------------
+subgraph AR_PROCESSING["Accounts Receivable Processing"]
+    INVOICE["INVOICE"]
+    PAYMENT["PAYMENT"]
+    ADJUSTMENT["ADJUSTMENT"]
+end
+
+%% -----------------------------------
+%% Billing and Cash Application
+%% -----------------------------------
+INVOICE --- CUSTOMER
+INVOICE --- PURCHASE_ORDER
+INVOICE --- PROJECT
+INVOICE --- WORK_ORDER
+
+PAYMENT --- CUSTOMER
+PAYMENT --- INVOICE
+
+ADJUSTMENT --- INVOICE
