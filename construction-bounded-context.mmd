@@ -5,6 +5,14 @@ title: Construction Context
 flowchart LR
 
 %% -----------------------------
+%% Commercial Documents
+%% -----------------------------
+subgraph CommercialDocsCtx["Commercial&nbsp;Documents"]
+  ESTIMATE
+  PROPOSAL
+end
+
+%% -----------------------------
 %% Customer & Contract Context
 %% -----------------------------
 subgraph CustomerCtx["Customer & Contract Context"]
@@ -36,7 +44,6 @@ subgraph ExecCtx["Construction Execution"]
     TASK
     WORK_ORDER["WORK ORDER"]
     SUPERVISOR
-    ESTIMATE
 end
 
 %% -----------------------------
@@ -56,19 +63,19 @@ ASSET --- WARRANTY
 
 LOCATION --- PROJECT
 PURCHASE_ORDER --- PROJECT
-PROPOSAL --- PROJECT
 
 PROJECT --- CHANGE_ORDER
 PROJECT --- TASK
 PROJECT --- WORK_ORDER
 PROJECT --- SUPERVISOR
-PROJECT --- ESTIMATE
-
-PROPOSAL --- CUSTOMER
-PROPOSAL --- LOCATION
-PROPOSAL --- VENDOR
 
 WARRANTY --- VENDOR
 INVOICE --- VENDOR
 
 ASSET --- LOCATION
+
+CUSTOMER --- PROPOSAL
+VENDOR --- PROPOSAL
+PROJECT --- PROPOSAL
+LOCATION --- PROPOSAL
+ESTIMATE --- PROPOSAL
